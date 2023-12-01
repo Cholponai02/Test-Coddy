@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простой список дел</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #taskInput {
+            width: 200px;
+            padding: 8px;
+        }
+
+        #addButton {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        #taskList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .taskItem {
+            margin-bottom: 8px;
+        }
+
+        .deleteButton {
+            background-color: #ff6666;
+            color: white;
+            padding: 4px 8px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Простой список дел</h1>
+
+    <input type="text" id="taskInput" placeholder="Новая задача...">
+    <button id="addButton">Добавить</button>
+
+    <ul id="taskList"></ul>
+
+    <script>
+        // Получаем ссылки на элементы
+        var addButton = document.getElementById('addButton');
+        var taskInput = document.getElementById('taskInput');
+        var taskList = document.getElementById('taskList');
+
+        // Устанавливаем обработчик события для кнопки "Добавить"
+        addButton.onclick = addTask;
+
+        // Устанавливаем обработчик события для поля ввода, чтобы добавлять задачу по нажатию Enter
+        taskInput.onkeyup = function(event) {
+            if (event.keyCode === 13) {
+                addTask();
+            }
+        };
+
+        // Функция для добавления задачи
+        function addTask() {
+            // Получаем значение из поля ввода и удаляем лишние пробелы
+            var taskInputValue = taskInput.value.trim();
+            
+            // Проверяем, что значение не пустое
+            if (taskInputValue !== '') {
+                // Создаем новый элемент списка и кнопку удаления
+                var taskItem = document.createElement('li');
+                taskItem.className = 'taskItem';
+
+                var deleteButton = document.createElement('button');
+                deleteButton.className = 'deleteButton';
+                deleteButton.textContent = 'Удалить';
+
+                // Устанавливаем обработчик события для кнопки удаления
+                deleteButton.onclick = function() {
+                    taskList.removeChild(taskItem);
+                };
+
+                // Устанавливаем текстовое содержание задачи
+                taskItem.textContent = taskInputValue;
+
+                // Добавляем кнопку удаления к элементу задачи
+                taskItem.appendChild(deleteButton);
+
+                // Добавляем элемент задачи в список и очищаем поле ввода
+                taskList.appendChild(taskItem);
+                taskInput.value = '';
+            }
+        }
+    </script>
+
+</body>
+</html>
